@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI PJOK Kelas VII - Passing Bawah Bola Voli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom IFP Scrollbars & Animations */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+
+        .touch-btn {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .touch-btn:active {
+            transform: scale(0.96);
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .badge-glow {
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans overflow-x-hidden select-none bg-slate-950 text-slate-100">
+
+    <!-- Top Header -->
+    <header class="h-16 bg-slate-900/90 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between z-30 shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center font-black text-xl text-white shadow-lg shadow-brand-500/20">
+                <i class="fa-solid fa-volleyball"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-sm md:text-base leading-tight text-white">MPI PJOK - SMP Kelas VII</h1>
+                <p class="text-xs text-brand-400 font-medium">Presisi & Kontrol Passing Bawah Bola Voli</p>
+            </div>
+        </div>
+
+        <!-- Student Info Header Display -->
+        <div id="headerStudentBadge" class="hidden md:flex items-center bg-slate-800/80 px-4 py-1.5 rounded-full border border-slate-700/60">
+            <i class="fa-solid fa-user-graduate text-brand-400 mr-2"></i>
+            <span id="displayStudentName" class="font-semibold text-sm text-slate-200">Siswa</span>
+            <span class="mx-2 text-slate-600">|</span>
+            <span id="displayStudentSchool" class="text-xs text-slate-400">SMP</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleFullscreen()" title="Layar Penuh (IFP Mode)" class="touch-btn bg-slate-800 hover:bg-slate-700 text-slate-200 p-2.5 rounded-xl border border-slate-700">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+            <button onclick="openModal('developerModal')" title="Pengembang & Referensi" class="touch-btn bg-brand-600 hover:bg-brand-500 text-white px-3 py-2 rounded-xl text-xs md:text-sm font-semibold flex items-center gap-2 shadow-md shadow-brand-600/30">
+                <i class="fa-solid fa-address-card"></i>
+                <span class="hidden sm:inline">Pengembang</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden relative">
+        
+        <!-- Sidebar Menu (Optimized for Touch Screen) -->
+        <aside id="sidebar" class="w-20 lg:w-72 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0 transition-all duration-300 z-20">
+            <div class="p-3 space-y-2 overflow-y-auto">
+                
+                <button onclick="switchTab('welcome')" id="nav-welcome" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white">
+                    <i class="fa-solid fa-house text-xl w-7 text-center text-brand-400"></i>
+                    <span class="hidden lg:inline">Beranda & Pengantar</span>
+                </button>
+
+                <button onclick="switchTab('tujuan')" id="nav-tujuan" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white">
+                    <i class="fa-solid fa-bullseye text-xl w-7 text-center text-teal-400"></i>
+                    <span class="hidden lg:inline">Tujuan & Panduan</span>
+                </button>
+
+                <button onclick="switchTab('materi')" id="nav-materi" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white">
+                    <i class="fa-solid fa-book-open-reader text-xl w-7 text-center text-amber-400"></i>
+                    <span class="hidden lg:inline">Rangkuman Materi</span>
+                </button>
+
+                <button onclick="switchTab('petualangan')" id="nav-petualangan" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white relative">
+                    <i class="fa-solid fa-gamepad text-xl w-7 text-center text-emerald-400"></i>
+                    <span class="hidden lg:inline">Ayo Berpetualang</span>
+                    <span id="adventureBadge" class="hidden lg:flex ml-auto bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">0/9</span>
+                </button>
+
+                <button onclick="switchTab('asesmen')" id="nav-asesmen" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white">
+                    <i class="fa-solid fa-clipboard-check text-xl w-7 text-center text-indigo-400"></i>
+                    <span class="hidden lg:inline">Asesmen Sumatif</span>
+                </button>
+
+                <button onclick="switchTab('hots')" id="nav-hots" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white">
+                    <i class="fa-solid fa-brain text-xl w-7 text-center text-rose-400"></i>
+                    <span class="hidden lg:inline">Tantangan HOTS</span>
+                </button>
+
+                <button onclick="switchTab('refleksi')" id="nav-refleksi" class="nav-item w-full flex items-center gap-3 p-3 rounded-xl transition font-semibold text-sm text-slate-300 hover:bg-slate-800/80 hover:text-white">
+                    <i class="fa-solid fa-heart-pulse text-xl w-7 text-center text-pink-400"></i>
+                    <span class="hidden lg:inline">Refleksi Pembelajaran</span>
+                </button>
+
+            </div>
+
+            <!-- Global Progress Widget in Sidebar -->
+            <div class="p-4 m-2 bg-slate-950/60 rounded-2xl border border-slate-800 hidden lg:block">
+                <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-slate-400">Progres Petualangan</span>
+                    <span id="overallProgressText" class="text-xs font-extrabold text-brand-400">0%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="overallProgressBar" class="h-full bg-gradient-to-r from-brand-500 to-teal-400 w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+
+            <!-- TAB 1: WELCOME & STUDENT ENTRY -->
+            <section id="tab-welcome" class="tab-content max-w-5xl mx-auto space-y-6">
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-900/80 via-slate-900 to-slate-900 p-6 md:p-10 border border-brand-500/30 shadow-2xl">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-white pointer-events-none">
+                        <i class="fa-solid fa-volleyball text-[280px]"></i>
+                    </div>
+
+                    <div class="relative z-10 max-w-2xl space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 border border-brand-400/40 text-brand-300 text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-sparkles"></i> Selamat Datang di MPI Interactive
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                            Kuasai <span class="bg-gradient-to-r from-brand-400 to-teal-300 bg-clip-text text-transparent">Passing Bawah</span> Bola Voli Presisi!
+                        </h2>
+                        
+                        <!-- Greeting Message from Developer Carolina -->
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-700 border border-brand-400 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                                    <i class="fa-solid fa-user-tie text-brand-400 text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-white">Pesan Motivasi Ibu Carolina, S.Pd.</h4>
+                                    <p class="text-xs text-slate-400">Guru PJOK - SMP Negeri 3 Geleo Asa</p>
+                                </div>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed italic">
+                                "Halo generasi hebat! Olahraga bukan hanya tentang kekuatan fisik, tapi tentang kecerdasan gerak, ketepatan, dan kerja sama tim. Mari belajar passing bawah dengan penuh semangat, pantang menyerah, dan raih kontrol bola terbaikmu hari ini!"
+                            </p>
+                        </div>
+
+                        <!-- Registration Form for IFP Screen -->
+                        <div id="studentFormBox" class="pt-4 space-y-4 bg-slate-900/90 p-5 rounded-2xl border border-slate-700/60 shadow-lg">
+                            <h3 class="font-bold text-base text-slate-200 flex items-center gap-2">
+                                <i class="fa-solid fa-id-card text-brand-400"></i> Masukkan Identitas Pemain:
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Nama Lengkap Siswa</label>
+                                    <input type="text" id="inputName" placeholder="Contoh: Budi Pratama" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500 text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Asal Sekolah</label>
+                                    <input type="text" id="inputSchool" value="SMP Negeri 3 Geleo Asa" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500 text-white">
+                                </div>
+                            </div>
+                            <button onclick="saveStudentInfo()" class="touch-btn w-full bg-gradient-to-r from-brand-600 to-teal-500 hover:from-brand-500 hover:to-teal-400 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2 text-base">
+                                <span>Mulai Petualangan Pembelajaran</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <div id="studentWelcomeBadge" class="hidden p-4 rounded-2xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs uppercase font-bold text-emerald-400">Status Pemain Aktif</span>
+                                <h4 id="activeStudentTitle" class="text-lg font-bold text-white">Nama Siswa</h4>
+                            </div>
+                            <button onclick="resetStudentInfo()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600 text-slate-300">
+                                Ubah Data
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: TUJUAN PEMBELAJARAN & PANDUAN -->
+            <section id="tab-tujuan" class="tab-content hidden max-w-5xl mx-auto space-y-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-bullseye text-teal-400"></i> Tujuan Pembelajaran & Panduan Penggunaan
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Panduan praktis beraktivitas menggunakan Papan Interaktif Digital (IFP)</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Target Card -->
+                    <div class="glass-panel p-6 rounded-3xl border border-teal-500/20 space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-300 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-crosshair"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Tujuan Pembelajaran</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Peserta didik mampu <strong class="text-teal-300">mempraktikkan teknik dasar passing bawah bola voli</strong> secara individu maupun berpasangan dengan <strong class="text-teal-300">kontrol arah bola yang akurat</strong> dan <strong class="text-teal-300">perkenaan pada lengan bawah yang tepat</strong>.
+                        </p>
+                        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-1">
+                            <div class="font-bold text-slate-300">Indikator Keberhasilan:</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Posisi siku lurus & genggaman tangan rapat</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Perkenaan bola 5-10 cm di atas pergelangan tangan</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Ayunan lengan dari bawah ke depan atas (maks 90°)</div>
+                        </div>
+                    </div>
+
+                    <!-- Guide Card -->
+                    <div class="glass-panel p-6 rounded-3xl border border-brand-500/20 space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-500/20 text-brand-300 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-hand-pointer"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Panduan Penggunaan Layar Sentuh IFP</h3>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-touch-app text-brand-400 mt-1"></i>
+                                <span><strong>Sentuhan Langsung:</strong> Tekan tombol besar pada layar untuk navigasi menu dan menjawab kuis petualangan.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-sliders text-brand-400 mt-1"></i>
+                                <span><strong>Simulasi Interaktif:</strong> Geser kontrol sudut ayunan dan gaya untuk mengontrol arah pantulan bola voli.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-unlock-keyhole text-brand-400 mt-1"></i>
+                                <span><strong>Sistem Selesaikan Level:</strong> Buka kunci tantangan secara berurutan dari Mudah, Sedang, hingga Sulit.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: RANGKUMAN MATERI -->
+            <section id="tab-materi" class="tab-content hidden max-w-5xl mx-auto space-y-6">
+                <div class="border-b border-slate-800 pb-4 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
+                            <i class="fa-solid fa-book-open-reader text-amber-400"></i> Rangkuman Materi: Gerak & Gaya Passing Bawah
+                        </h2>
+                        <p class="text-slate-400 text-sm mt-1">Konsep Fisika, Biomekanika, dan Penerapan Sehari-hari</p>
+                    </div>
+                </div>
+
+                <!-- Theory Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Step 1 -->
+                    <div class="glass-panel p-5 rounded-2xl border border-amber-500/20 space-y-3">
+                        <div class="bg-amber-500/20 text-amber-400 font-extrabold px-3 py-1 rounded-lg w-max text-xs">
+                            TAHAP 1: Kuda-kuda
+                        </div>
+                        <h4 class="font-bold text-lg text-white">Sikap Awal & Pusat Gravitasi</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Buka kaki selebar bahu, lutut ditekuk (sudut ±110°). Merendahkan pusat gravitasi tubuh memberikan stabilitas maksimum dan siap memberikan gaya dorong vertikal saat bola datang.
+                        </p>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-[11px] text-amber-300/90">
+                            <strong>Konsep Gaya:</strong> Menghasilkan gaya dorong otot kaki (Gaya Reaksi Tanah) untuk menyalurkan energi ke atas.
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="glass-panel p-5 rounded-2xl border border-brand-500/20 space-y-3">
+                        <div class="bg-brand-500/20 text-brand-400 font-extrabold px-3 py-1 rounded-lg w-max text-xs">
+                            TAHAP 2: Perkenaan
+                        </div>
+                        <h4 class="font-bold text-lg text-white">Perkenaan Bola pada Lengan</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Kedua lengan diluruskan ke depan bawah, dirapatkan sehingga kedua ibu jari sejajar. Bola mengenai bidang datar di atas pergelangan tangan (5-10 cm).
+                        </p>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-[11px] text-brand-300/90">
+                            <strong>Bidang Pantul Datar:</strong> Lengan membentuk bidang lurus datar agar arah sudut pantul bola ($\theta_{pantul} = \theta_{datang}$) menjadi presisi.
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="glass-panel p-5 rounded-2xl border border-teal-500/20 space-y-3">
+                        <div class="bg-teal-500/20 text-teal-400 font-extrabold px-3 py-1 rounded-lg w-max text-xs">
+                            TAHAP 3: Ayunan & Kontrol
+                        </div>
+                        <h4 class="font-bold text-lg text-white">Sudut Ayunan & Impuls</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Ayunkan kedua lengan dari bawah ke depan atas dengan poros pada sendi bahu. Lutut diluruskan secara bersamaan untuk mentransfer momentum.
+                        </p>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-[11px] text-teal-300/90">
+                            <strong>Hukum Impuls ($F \cdot \Delta t$):</strong> Ayunan terkontrol melunakkan tumbukan keras dan mengarahkan bola parabola ke toser/teman.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real Life & Sports Application Banner -->
+                <div class="bg-gradient-to-r from-slate-900 via-brand-950 to-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl shrink-0">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-base text-white">Pemanfaatan Konsep Gerak & Gaya dalam Kehidupan Sehari-hari</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Prinsip sudut pantul dan kontrol impuls pada passing bawah persis seperti saat kita menangkap atau memantulkan benda berharga agar tidak pecah (meredam gaya tumbukan), meredam efek getaran sepeda saat melewati jalan bergelombang menggunakan tekukan lutut sebagai peredam alami, serta mengatur arah pantulan papan dalam permainan olahraga seperti tenis meja dan bola basket.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: AYO BERPETUALANG (3 LEVELS x 3 CHALLENGES) -->
+            <section id="tab-petualangan" class="tab-content hidden max-w-5xl mx-auto space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-4 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
+                            <i class="fa-solid fa-gamepad text-emerald-400"></i> Ayo Berpetualang Passing Bawah
+                        </h2>
+                        <p class="text-slate-400 text-sm mt-1">Selesaikan 3 Level & 9 Tantangan untuk Menguasai Bola Voli!</p>
+                    </div>
+
+                    <!-- Visual Progress Display -->
+                    <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400 block font-semibold">Tantangan Selesai</span>
+                            <span id="adventureScoreText" class="text-lg font-black text-emerald-400">0 / 9</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level Selection Nav Tabs -->
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="selectAdventureLevel(1)" id="lvlBtn-1" class="touch-btn p-4 rounded-2xl border text-center font-bold text-sm transition bg-slate-800 border-brand-500 text-brand-300">
+                        <div class="text-xs font-normal opacity-75">LEVEL 1</div>
+                        <div class="text-base">Teknik & Posisi</div>
+                    </button>
+                    <button onclick="selectAdventureLevel(2)" id="lvlBtn-2" class="touch-btn p-4 rounded-2xl border text-center font-bold text-sm transition bg-slate-900 border-slate-800 text-slate-500">
+                        <div class="text-xs font-normal opacity-75">LEVEL 2</div>
+                        <div class="text-base">Simulasi Presisi</div>
+                    </button>
+                    <button onclick="selectAdventureLevel(3)" id="lvlBtn-3" class="touch-btn p-4 rounded-2xl border text-center font-bold text-sm transition bg-slate-900 border-slate-800 text-slate-500">
+                        <div class="text-xs font-normal opacity-75">LEVEL 3</div>
+                        <div class="text-base">Taktik & Berpasangan</div>
+                    </button>
+                </div>
+
+                <!-- LEVEL CONTENT DISPLAY -->
+
+                <!-- LEVEL 1 CONTAINER -->
+                <div id="levelContainer-1" class="level-panel space-y-4">
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+                        <span class="text-sm font-bold text-slate-300">Tingkat Kesulitan Level 1:</span>
+                        <div class="flex gap-2">
+                            <button onclick="loadChallenge(1, 'mudah')" id="chBtn-1-mudah" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white">Mudah</button>
+                            <button onclick="loadChallenge(1, 'sedang')" id="chBtn-1-sedang" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400">Sedang</button>
+                            <button onclick="loadChallenge(1, 'sulit')" id="chBtn-1-sulit" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400">Sulit</button>
+                        </div>
+                    </div>
+
+                    <!-- Challenge Card Dynamic Box -->
+                    <div id="challengeCardArea" class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 space-y-6">
+                        <!-- Content inserted dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- LEVEL 2 CONTAINER: SIMULATION CANVAS GAME -->
+                <div id="levelContainer-2" class="level-panel hidden space-y-4">
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+                        <span class="text-sm font-bold text-slate-300">Simulasi Interaktif (Atur Sudut & Gaya):</span>
+                        <div class="flex gap-2">
+                            <button onclick="loadChallenge(2, 'mudah')" id="chBtn-2-mudah" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white">Mudah (Sasaran Luas)</button>
+                            <button onclick="loadChallenge(2, 'sedang')" id="chBtn-2-sedang" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400">Sedang (Sasaran Sedang)</button>
+                            <button onclick="loadChallenge(2, 'sulit')" id="chBtn-2-sulit" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400">Sulit (Sasaran Sempit)</button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Canvas Simulation Screen -->
+                    <div class="glass-panel p-4 md:p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center text-xs font-bold text-slate-300">
+                            <span id="simInstructionText">Tugas: Atur sudut lengan dan gaya ayunan agar bola pantul tepat mengenai Keranjang Target!</span>
+                            <span id="simStatusBadge" class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300">Belum Dicoba</span>
+                        </div>
+
+                        <!-- Canvas Interactive Element -->
+                        <div class="relative w-full h-64 md:h-80 bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden flex items-center justify-center">
+                            <canvas id="volleyballCanvas" class="w-full h-full block"></canvas>
+                        </div>
+
+                        <!-- Touch Sliders for IFP -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-2">
+                                    <span class="text-slate-300">Sudut Ayunan Lengan (&theta;):</span>
+                                    <span id="angleValueText" class="text-brand-400">45°</span>
+                                </div>
+                                <input type="range" id="angleSlider" min="15" max="85" value="45" oninput="updateSimControls()" class="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-brand-500">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-2">
+                                    <span class="text-slate-300">Gaya Ayunan Lengan (Power):</span>
+                                    <span id="powerValueText" class="text-teal-400">55%</span>
+                                </div>
+                                <input type="range" id="powerSlider" min="20" max="100" value="55" oninput="updateSimControls()" class="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3">
+                            <button onclick="resetSimulation()" class="touch-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-5 py-3 rounded-xl text-sm">
+                                <i class="fa-solid fa-rotate-right mr-1"></i> Reset Bola
+                            </button>
+                            <button onclick="launchVolleyball()" class="touch-btn bg-gradient-to-r from-brand-600 to-teal-500 hover:from-brand-500 hover:to-teal-400 text-white font-extrabold px-8 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 flex items-center gap-2">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Lakukan Passing Bawah!</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LEVEL 3 CONTAINER: PARTNER PASSING TACTICS -->
+                <div id="levelContainer-3" class="level-panel hidden space-y-4">
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+                        <span class="text-sm font-bold text-slate-300">Passing Berpasangan & Situasi Permainan:</span>
+                        <div class="flex gap-2">
+                            <button onclick="loadChallenge(3, 'mudah')" id="chBtn-3-mudah" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white">Mudah</button>
+                            <button onclick="loadChallenge(3, 'sedang')" id="chBtn-3-sedang" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400">Sedang</button>
+                            <button onclick="loadChallenge(3, 'sulit')" id="chBtn-3-sulit" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400">Sulit</button>
+                        </div>
+                    </div>
+
+                    <div id="challengeCardAreaLvl3" class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 space-y-6">
+                        <!-- Content inserted dynamically by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: ASESMEN SUMATIF (PROYEK/PRAKTIK) -->
+            <section id="tab-asesmen" class="tab-content hidden max-w-5xl mx-auto space-y-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-clipboard-check text-indigo-400"></i> Asesmen Sumatif Praktik & Proyek
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Aktivitas Praktik Lapangan dan Unjuk Kerja Peserta Didik</p>
+                </div>
+
+                <!-- Summative Project Card -->
+                <div class="glass-panel p-6 md:p-8 rounded-3xl border border-indigo-500/30 space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-3xl font-extrabold">
+                            <i class="fa-solid fa-tasks"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Tugas Proyek Praktik Individu & Berpasangan</span>
+                            <h3 class="text-xl font-bold text-white">Uji Keterampilan Presisi Passing Bawah 60 Detik</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Task 1 -->
+                        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-3">
+                            <h4 class="font-bold text-base text-indigo-300 flex items-center gap-2">
+                                <i class="fa-solid fa-user"></i> Bagian A: Passing Bawah Perorangan Mandiri
+                            </h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Lakukan pantulan passing bawah secara melambung konsisten ke udara secara mandiri sebanyak <strong>15 kali pantulan tanpa jatuh</strong>. Perhatikan siku tetap lurus dan perkenaan pada pergelangan tangan.
+                            </p>
+                        </div>
+
+                        <!-- Task 2 -->
+                        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-3">
+                            <h4 class="font-bold text-base text-indigo-300 flex items-center gap-2">
+                                <i class="fa-solid fa-user-group"></i> Bagian B: Passing Bawah Berpasangan Jarak 3-4 Meter
+                            </h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Lakukan operan passing bawah berpasangan dengan teman sejawat sejauh 3 meter sebanyak <strong>10 kali operan akurat berturut-turut</strong> tanpa bola menyentuh lantai.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Assessment Rubric Table -->
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-sm text-slate-200">Rubrik Penilaian Unjuk Kerja (Kriteria Keberhasilan)</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-900 text-slate-300 border-b border-slate-800">
+                                        <th class="p-3">Aspek Penilaian</th>
+                                        <th class="p-3">Sangat Baik (4)</th>
+                                        <th class="p-3">Baik (3)</th>
+                                        <th class="p-3">Cukup (2)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                    <tr>
+                                        <td class="p-3 font-semibold text-white">Sikap & Perkenaan</td>
+                                        <td class="p-3">Siku lurus total, perkenaan tepat di pergelangan tangan.</td>
+                                        <td class="p-3">Siku kadang ditekuk sedikit, perkenaan tepat.</td>
+                                        <td class="p-3">Perkenaan sering di jari/ujung tangan.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-white">Akurasi & Kontrol Arah</td>
+                                        <td class="p-3">Bola melambung stabil parabola tepat ke pasangan.</td>
+                                        <td class="p-3">Bola melambung, tapi sedikit melenceng dari teman.</td>
+                                        <td class="p-3">Arah bola liar & sulit dikontrol.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: TANTANGAN HOTS (SOAL CERITA URAIAN) -->
+            <section id="tab-hots" class="tab-content hidden max-w-5xl mx-auto space-y-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-brain text-rose-400"></i> Tantangan HOTS (Analisis Kasus Voli)
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Studi Kasus Permainan & Penalaran Tingkat Tinggi</p>
+                </div>
+
+                <div class="glass-panel p-6 md:p-8 rounded-3xl border border-rose-500/30 space-y-6">
+                    <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-bold">
+                            <i class="fa-solid fa-book-open"></i> Studi Kasus Pertandingan Antar Sekolah
+                        </div>
+                        <h3 class="text-lg font-bold text-white leading-snug">
+                            "Menghadapi Servis Keras Tim SMP lawan dari Desa tetangga"
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Dalam laga final turnamen bola voli, tim SMP Negeri 3 Geleo Asa mendapat servis atas yang sangat tajam dan meluncur cepat dari pemain lawan. Budi bertindak sebagai pemain penerima di baris belakang. Jika Budi memukul bola dengan mengayunkan arm swing sangat kuat dari bawah ke atas, bola justru meluncur kencang keluar lapangan belakang (out).
+                        </p>
+                    </div>
+
+                    <!-- HOTS Questions Area -->
+                    <div class="space-y-4">
+                        <label class="block text-sm font-bold text-slate-200">
+                            Pertanyaan Uraian Analisis (HOTS):
+                        </label>
+                        <p class="text-xs text-slate-400">
+                            Berdasarkan konsep gaya impuls dan sudut pantul yang telah kamu pelajari, jelaskan analisis kesalahannya dan instruksikan penyesuaian teknik yang harus dilakukan Budi (posisi badan, sudut lengan, dan gaya ayunan) agar bola servis keras tersebut dapat di-passing dengan melambung tenang ke arah pengumpan (setter)!
+                        </p>
+
+                        <!-- IFP On-screen Answer Textarea -->
+                        <textarea id="hotsAnswerInput" rows="4" placeholder="Ketik atau gunakan papan ketik IFP untuk menuliskan jawaban analisis kelompok/individumu di sini..." class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-rose-500"></textarea>
+
+                        <div class="flex justify-between items-center pt-2">
+                            <button onclick="saveHotsAnswer()" class="touch-btn bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-700">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Jawaban
+                            </button>
+                            <button onclick="toggleHotsKey()" class="touch-btn bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md shadow-rose-600/30">
+                                <i class="fa-solid fa-key mr-1"></i> Buka Kunci / Diskusi Kunci Jawaban
+                            </button>
+                        </div>
+
+                        <!-- Answer Key Discussion Area (Teacher Mode) -->
+                        <div id="hotsKeyArea" class="hidden p-5 rounded-2xl bg-rose-950/40 border border-rose-500/40 space-y-2 text-xs text-slate-200">
+                            <div class="font-bold text-rose-300 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i> Kunci Analisis Pembahasan (Panduan Guru):
+                            </div>
+                            <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+                                <li><strong>Analisis Kesalahan:</strong> Bola servis datang membawa energi kinetik dan kecepatan tinggi. Menambah ayunan kuat dari bawah memperbesar gaya impuls total, sehingga pantulan bola menjadi terlalu keras dan melenceng keluar.</li>
+                                <li><strong>Penyesuaian Sudut Lengan:</strong> Budi harus membentuk sudut lengan lebih landai (sekitar 30°-45°) menghadap ke arah setter di depan net.</li>
+                                <li><strong>Meredam Gaya (Redaman Impuls):</strong> Budi tidak perlu mengayunkan tangan keras, cukup **menahan (absorb)** tumbukan bola dengan melenturkan sedikit lutut saat perkenaan bola agar laju bola diredam secara terkontrol.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: REFLEKSI PEMBELAJARAN -->
+            <section id="tab-refleksi" class="tab-content hidden max-w-5xl mx-auto space-y-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-heart-pulse text-pink-400"></i> Refleksi Pembelajaran Siswa
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Evaluasi Mandiri Pemahaman dan Sikap dalam Pembelajaran</p>
+                </div>
+
+                <div class="glass-panel p-6 md:p-8 rounded-3xl border border-pink-500/30 space-y-6">
+                    <h3 class="font-bold text-base text-white">Berikan tanda centang pada pernyataan yang sesuai dengan dirimu hari ini:</h3>
+
+                    <div class="space-y-4">
+                        <!-- Reflection Item 1 -->
+                        <div onclick="toggleReflection(this)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer flex items-center justify-between hover:border-pink-500 transition">
+                            <span class="text-xs md:text-sm text-slate-300">Saya telah memahami pentingnya posisi siku lurus dan merapatkan kedua ibu jari saat passing bawah.</span>
+                            <div class="refl-check w-7 h-7 rounded-lg border border-slate-700 flex items-center justify-center text-pink-400 font-bold text-sm"></div>
+                        </div>
+
+                        <!-- Reflection Item 2 -->
+                        <div onclick="toggleReflection(this)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer flex items-center justify-between hover:border-pink-500 transition">
+                            <span class="text-xs md:text-sm text-slate-300">Saya mampu mengatur sudut ayunan lengan untuk mengontrol arah lambungan bola voli.</span>
+                            <div class="refl-check w-7 h-7 rounded-lg border border-slate-700 flex items-center justify-center text-pink-400 font-bold text-sm"></div>
+                        </div>
+
+                        <!-- Reflection Item 3 -->
+                        <div onclick="toggleReflection(this)" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer flex items-center justify-between hover:border-pink-500 transition">
+                            <span class="text-xs md:text-sm text-slate-300">Saya dapat bekerja sama secara baik, sportif, dan komunikatif saat melakukan passing berpasangan.</span>
+                            <div class="refl-check w-7 h-7 rounded-lg border border-slate-700 flex items-center justify-center text-pink-400 font-bold text-sm"></div>
+                        </div>
+                    </div>
+
+                    <!-- Emotion Mood Scale -->
+                    <div class="pt-4 border-t border-slate-800 space-y-3">
+                        <label class="block text-xs font-bold text-slate-400">Bagaimana Perasaanmu Setelah Mengikuti Pembelajaran Ini?</label>
+                        <div class="grid grid-cols-4 gap-3 text-center">
+                            <button onclick="selectMood(this, 'Sangat Senang')" class="mood-btn p-3 rounded-2xl bg-slate-900 border border-slate-800 text-2xl hover:bg-pink-500/20 hover:border-pink-500 transition">
+                                &#128516; <span class="block text-[10px] font-bold mt-1 text-slate-300">Senang</span>
+                            </button>
+                            <button onclick="selectMood(this, 'Paham Bermanfaat')" class="mood-btn p-3 rounded-2xl bg-slate-900 border border-slate-800 text-2xl hover:bg-pink-500/20 hover:border-pink-500 transition">
+                                &#128525; <span class="block text-[10px] font-bold mt-1 text-slate-300">Paham</span>
+                            </button>
+                            <button onclick="selectMood(this, 'Tertantang')" class="mood-btn p-3 rounded-2xl bg-slate-900 border border-slate-800 text-2xl hover:bg-pink-500/20 hover:border-pink-500 transition">
+                                &#129321; <span class="block text-[10px] font-bold mt-1 text-slate-300">Tertantang</span>
+                            </button>
+                            <button onclick="selectMood(this, 'Perlu Berlatih')" class="mood-btn p-3 rounded-2xl bg-slate-900 border border-slate-800 text-2xl hover:bg-pink-500/20 hover:border-pink-500 transition">
+                                &#128548; <span class="block text-[10px] font-bold mt-1 text-slate-300">Butuh Latihan</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- DEVELOPER & REFERENCE MODAL DIALOG -->
+    <div id="developerModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-brand-500/30 overflow-hidden shadow-2xl space-y-0">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-brand-900 to-slate-900 p-6 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-address-card"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-lg text-white">Identitas Pengembang MPI</h3>
+                        <p class="text-xs text-brand-300">Multimedia Pembelajaran Interaktif PJOK SMP</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('developerModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Content Body -->
+            <div class="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+                <div class="flex flex-col sm:flex-row items-center gap-6 bg-slate-900/80 p-5 rounded-2xl border border-slate-800">
+                    <!-- Photo Placeholder -->
+                    <div class="w-28 h-28 rounded-2xl bg-gradient-to-tr from-brand-600 to-teal-400 border-2 border-brand-400 flex flex-col items-center justify-center text-white shrink-0 shadow-lg">
+                        <i class="fa-solid fa-user-circle text-6xl"></i>
+                        <span class="text-[10px] font-bold mt-1 uppercase tracking-wider">Foto Guru</span>
+                    </div>
+                    <div class="space-y-1.5 text-center sm:text-left">
+                        <span class="px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-extrabold">Pengembang Utama</span>
+                        <h4 class="text-xl font-black text-white">Carolina, S.Pd.</h4>
+                        <p class="text-xs text-teal-400 font-semibold"><i class="fa-solid fa-school mr-1"></i> Unit Kerja: SMP Negeri 3 Geleo Asa</p>
+                        <p class="text-xs text-slate-400">Pakar Pendidikan Jasmani, Olahraga, dan Kesehatan (PJOK) SMP</p>
+                    </div>
+                </div>
+
+                <!-- References Section -->
+                <div class="space-y-3">
+                    <h5 class="font-bold text-sm text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-bookmark text-amber-400"></i> Kolom Referensi & Daftar Pustaka:
+                    </h5>
+                    <ul class="space-y-2 text-xs text-slate-300 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-link text-brand-400 mt-0.5"></i>
+                            <span>Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi. (2021). <em>Buku Panduan Guru PJOK SMP Kelas VII</em>. Jakarta: Pusat Kurikulum dan Perbukuan.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-link text-brand-400 mt-0.5"></i>
+                            <span>PBVSI. (2022). <em>Peraturan Permainan Bola Voli Internasional Official Text</em>. Jakarta: Pengurus Besar Persatuan Bola Voli Seluruh Indonesia.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-link text-brand-400 mt-0.5"></i>
+                            <span>McGinnis, P. M. (2020). <em>Biomechanics of Sport and Exercise</em>. Human Kinetics.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            studentName: '',
+            studentSchool: 'SMP Negeri 3 Geleo Asa',
+            activeTab: 'welcome',
+            currentLevel: 1,
+            completedChallenges: new Set(), // Track 1-mudah, 1-sedang, 1-sulit, etc.
+            simAngle: 45,
+            simPower: 55,
+            canvas: null,
+            ctx: null,
+            animId: null
+        };
+
+        // Challenge Questions Database for Adventure Mode
+        const challengeData = {
+            1: {
+                mudah: {
+                    title: "Level 1 - Tantangan Mudah: Posisi Tangan Rapat",
+                    question: "Bagaimana posisi kedua lengan bawah yang benar saat melakukan teknik passing bawah?",
+                    options: [
+                        "Dilebarkan selebar bahu dan siku ditekuk 90 derajat",
+                        "Kedua lengan dirapatkan lurus ke depan bawah dan siku dikunci",
+                        "Tangan disilangkan di dada dan lutut diluruskan kaku",
+                        "Hanya menggunakan satu tangan dominan ke atas"
+                    ],
+                    correct: 1,
+                    explanation: "Rapatnya kedua lengan lurus dengan siku dikunci menciptakan bidang pantul yang rata dan stabil bagi bola voli."
+                },
+                sedang: {
+                    title: "Level 1 - Tantangan Sedang: Perkenaan Bola Tepat",
+                    question: "Di bagian manakah titik ideal perkenaan bola pada lengan bawah agar arah lambungan dapat dikontrol presisi?",
+                    options: [
+                        "Ujung jari-jari tangan",
+                        "Siku bagian dalam",
+                        "5 hingga 10 cm di atas pergelangan tangan pada bagian terbal",
+                        "Bahu bagian atas"
+                    ],
+                    correct: 2,
+                    explanation: "Perkenaan bola 5-10 cm di atas pergelangan tangan memberikan kestabilan dan peredaman pantulan yang paling presisi."
+                },
+                sulit: {
+                    title: "Level 1 - Tantangan Sulit: Transfer Gaya Kuda-kuda",
+                    question: "Mengapa tekukan lutut (sikap kuda-kuda) sangat vital dalam membantu ayunan passing bawah?",
+                    options: [
+                        "Hanya untuk variasi gerakan gaya",
+                        "Untuk menyalurkan gaya dorong alami dari otot kaki ke lengan tanpa harus mengayunkan lengan berlebihan",
+                        "Agar tinggi badan siswa menjadi terlihat lebih pendek",
+                        "Untuk menahan bola agar tidak bergerak"
+                    ],
+                    correct: 1,
+                    explanation: "Lutut yang diluruskan secara bersamaan saat memukul menyalurkan dorongan gaya bawah ke atas (kinetic chain)."
+                }
+            },
+            3: {
+                mudah: {
+                    title: "Level 3 - Tantangan Mudah: Komunikasi Berpasangan",
+                    question: "Saat bermain berpasangan, apa hal pertama yang wajib dilakukan saat bola melambung ke area tengah antara dua pemain?",
+                    options: [
+                        "Saling berebut memukul bola tanpa bicara",
+                        "Memanggil nama/berteriak 'Saya!' atau 'Masuk!' untuk koordinasi",
+                        "Membiarkan bola jatuh ke lantai",
+                        "Membelakangi arah datangnya bola"
+                    ],
+                    correct: 1,
+                    explanation: "Komunikasi verbal adalah kunci utama passing berpasangan agar tidak terjadi benturan antar pemain."
+                },
+                sedang: {
+                    title: "Level 3 - Tantangan Sedang: Mengarahkan Umpan ke Toser",
+                    question: "Temanmu bertindak sebagai Toser (setter) di dekat net. Ke mana arah target lambungan passing bawah yang paling ideal?",
+                    options: [
+                        "Melambung tinggi parabola sekitar 1 meter di atas bibir net di depan Toser",
+                        "Lurus kencang menembak wajah Toser",
+                        "Jauh meluncur ke luar lapangan lawan",
+                        "Rendah menempel di atas lantai belakang"
+                    ],
+                    correct: 0,
+                    explanation: "Lambungan tinggi parabola memudahkan Toser untuk mengontrol dan melakukan umpan smes berikutnya."
+                },
+                sulit: {
+                    title: "Level 3 - Tantangan Sulit: Meredam Servis Tajam",
+                    question: "Ketika menerima servis lawan yang menukik cepat, tindakan mekanis apa yang paling tepat pada ayunan tanganmu?",
+                    options: [
+                        "Mengayunkan tangan dari bawah sekuat tenaga",
+                        "Meredam/menahan ayunan lengan serta melenturkan lutut mengikuti laju bola",
+                        "Melompat sambil mengayunkan tangan ke atas",
+                        "Memutar tubuh 360 derajat saat memukul"
+                    ],
+                    correct: 1,
+                    explanation: "Meredam dorongan (absorpsi gaya) menahan bola keras agar tidak memantul liar melenceng jauh."
+                }
+            }
+        };
+
+        window.onload = function() {
+            initSimulationCanvas();
+            loadChallenge(1, 'mudah');
+            updateOverallProgress();
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                el.classList.add('text-slate-300');
+            });
+
+            const activeTabEl = document.getElementById(`tab-${tabId}`);
+            if (activeTabEl) activeTabEl.classList.remove('hidden');
+
+            const activeNavEl = document.getElementById(`nav-${tabId}`);
+            if (activeNavEl) {
+                activeNavEl.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+                activeNavEl.classList.remove('text-slate-300');
+            }
+
+            state.activeTab = tabId;
+
+            if (tabId === 'petualangan' && state.currentLevel === 2) {
+                setTimeout(resizeCanvas, 100);
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function saveStudentInfo() {
+            const name = document.getElementById('inputName').value.trim();
+            const school = document.getElementById('inputSchool').value.trim();
+
+            if (!name) {
+                alert('Silakan masukkan Nama Lengkap terlebih dahulu!');
+                return;
+            }
+
+            state.studentName = name;
+            state.studentSchool = school || 'SMP Negeri 3 Geleo Asa';
+
+            document.getElementById('displayStudentName').innerText = state.studentName;
+            document.getElementById('displayStudentSchool').innerText = state.studentSchool;
+            document.getElementById('headerStudentBadge').classList.remove('hidden');
+
+            document.getElementById('studentFormBox').classList.add('hidden');
+            document.getElementById('activeStudentTitle').innerText = `${state.studentName} (${state.studentSchool})`;
+            document.getElementById('studentWelcomeBadge').classList.remove('hidden');
+        }
+
+        function resetStudentInfo() {
+            document.getElementById('studentFormBox').classList.remove('hidden');
+            document.getElementById('studentWelcomeBadge').classList.add('hidden');
+        }
+
+        function selectAdventureLevel(lvl) {
+            state.currentLevel = lvl;
+            document.querySelectorAll('.level-panel').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`levelContainer-${lvl}`).classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`lvlBtn-${i}`);
+                if (i === lvl) {
+                    btn.className = "touch-btn p-4 rounded-2xl border text-center font-bold text-sm transition bg-slate-800 border-brand-500 text-brand-300 shadow-md";
+                } else {
+                    btn.className = "touch-btn p-4 rounded-2xl border text-center font-bold text-sm transition bg-slate-900 border-slate-800 text-slate-500";
+                }
+            }
+
+            if (lvl === 2) {
+                loadChallenge(2, 'mudah');
+                setTimeout(resizeCanvas, 100);
+            } else {
+                loadChallenge(lvl, 'mudah');
+            }
+        }
+
+        function loadChallenge(lvl, diff) {
+            // Update difficulty button highlight
+            ['mudah', 'sedang', 'sulit'].forEach(d => {
+                const b = document.getElementById(`chBtn-${lvl}-${d}`);
+                if (b) {
+                    if (d === diff) {
+                        b.className = "touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white";
+                    } else {
+                        b.className = "touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400";
+                    }
+                }
+            });
+
+            if (lvl === 1 || lvl === 3) {
+                const data = challengeData[lvl][diff];
+                const targetArea = lvl === 1 ? 'challengeCardArea' : 'challengeCardAreaLvl3';
+                const key = `${lvl}-${diff}`;
+                const isCompleted = state.completedChallenges.has(key);
+
+                let html = `
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-white">${data.title}</h3>
+                        ${isCompleted ? '<span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold"><i class="fa-solid fa-check mr-1"></i> Selesai</span>' : ''}
+                    </div>
+                    <p class="text-sm text-slate-300 font-medium">${data.question}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                `;
+
+                data.options.forEach((opt, idx) => {
+                    html += `
+                        <button onclick="checkQuizAnswer(${lvl}, '${diff}', ${idx})" class="touch-btn text-left p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-brand-500 text-xs md:text-sm text-slate-200 transition flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-slate-800 text-brand-400 font-bold flex items-center justify-center shrink-0 border border-slate-700">${String.fromCharCode(65 + idx)}</span>
+                            <span>${opt}</span>
+                        </button>
+                    `;
+                });
+
+                html += `</div><div id="feedbackBox-${lvl}" class="hidden p-4 rounded-2xl text-xs"></div>`;
+                document.getElementById(targetArea).innerHTML = html;
+            } else if (lvl === 2) {
+                // Simulation Level Configs
+                const simConfigs = {
+                    mudah: { inst: "Level 2 (Mudah): Atur sudut sekitar 45° dan power 50-60% untuk mengenai target keranjang sedang.", targetMin: 220, targetMax: 280 },
+                    sedang: { inst: "Level 2 (Sedang): Atur sudut sekitar 55° dan power 65-75% untuk sasaran lebih jauh.", targetMin: 300, targetMax: 350 },
+                    sulit: { inst: "Level 2 (Sulit): Sasaran sangat presisi! Atur kombinasi sudut dan power tepat sasaran.", targetMin: 330, targetMax: 360 }
+                };
+                document.getElementById('simInstructionText').innerText = simConfigs[diff].inst;
+                state.currentTargetMin = simConfigs[diff].targetMin;
+                state.currentTargetMax = simConfigs[diff].targetMax;
+                state.currentDiff2 = diff;
+                resetSimulation();
+            }
+        }
+
+        function checkQuizAnswer(lvl, diff, selectedIdx) {
+            const data = challengeData[lvl][diff];
+            const feedbackEl = document.getElementById(`feedbackBox-${lvl}`);
+            feedbackEl.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-500/40', 'text-emerald-300', 'bg-rose-950/60', 'border-rose-500/40', 'text-rose-300');
+
+            if (selectedIdx === data.correct) {
+                feedbackEl.classList.add('bg-emerald-950/60', 'border', 'border-emerald-500/40', 'text-emerald-300');
+                feedbackEl.innerHTML = `<div class="font-bold mb-1"><i class="fa-solid fa-circle-check mr-1"></i> Tepat Sekali!</div>${data.explanation}`;
+                
+                const key = `${lvl}-${diff}`;
+                state.completedChallenges.add(key);
+                updateOverallProgress();
+            } else {
+                feedbackEl.classList.add('bg-rose-950/60', 'border', 'border-rose-500/40', 'text-rose-300');
+                feedbackEl.innerHTML = `<div class="font-bold mb-1"><i class="fa-solid fa-circle-xmark mr-1"></i> Kurang Tepat!</div>Ayo coba analisis kembali perkenaan dan sudut ayunan yang benar.`;
+            }
+        }
+
+        function updateOverallProgress() {
+            const total = 9;
+            const count = state.completedChallenges.size;
+            const percent = Math.round((count / total) * 100);
+
+            document.getElementById('adventureScoreText').innerText = `${count} / ${total}`;
+            document.getElementById('adventureBadge').innerText = `${count}/${total}`;
+            document.getElementById('overallProgressText').innerText = `${percent}%`;
+            document.getElementById('overallProgressBar').style.width = `${percent}%`;
+        }
+
+        function initSimulationCanvas() {
+            state.canvas = document.getElementById('volleyballCanvas');
+            if (!state.canvas) return;
+            state.ctx = state.canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        function resizeCanvas() {
+            if (!state.canvas) return;
+            const rect = state.canvas.parentElement.getBoundingClientRect();
+            state.canvas.width = rect.width;
+            state.canvas.height = rect.height;
+            drawSimulationFrame(null);
+        }
+
+        function updateSimControls() {
+            state.simAngle = parseInt(document.getElementById('angleSlider').value);
+            state.simPower = parseInt(document.getElementById('powerSlider').value);
+
+            document.getElementById('angleValueText').innerText = `${state.simAngle}°`;
+            document.getElementById('powerValueText').innerText = `${state.simPower}%`;
+
+            drawSimulationFrame(null);
+        }
+
+        function drawSimulationFrame(ballPos) {
+            const ctx = state.ctx;
+            const w = state.canvas.width;
+            const h = state.canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Ground Line
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, h - 30, w, 30);
+            ctx.strokeStyle = '#0284c7';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, h - 30);
+            ctx.lineTo(w, h - 30);
+            ctx.stroke();
+
+            // Player Avatar (Passing Bawah Stance)
+            const playerX = 60;
+            const playerY = h - 30;
+
+            ctx.fillStyle = '#0284c7';
+            ctx.fillRect(playerX - 15, playerY - 40, 30, 40); // Body
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(playerX, playerY - 50, 12, 0, Math.PI * 2); // Head
+            ctx.fill();
+
+            // Arm Angle Indicator Line
+            const angleRad = (state.simAngle * Math.PI) / 180;
+            const armLen = 35;
+            const armEndX = playerX + Math.cos(angleRad) * armLen;
+            const armEndY = (playerY - 25) - Math.sin(angleRad) * armLen;
+
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(playerX, playerY - 25);
+            ctx.lineTo(armEndX, armEndY);
+            ctx.stroke();
+
+            // Target Zone
+            const targetMin = state.currentTargetMin || (w * 0.6);
+            const targetWidth = 60;
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2;
+            ctx.fillRect(targetMin, h - 60, targetWidth, 30);
+            ctx.strokeRect(targetMin, h - 60, targetWidth, 30);
+
+            ctx.fillStyle = '#10b981';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillText('TARGET', targetMin + 8, h - 40);
+
+            // Ball Position
+            const bx = ballPos ? ballPos.x : armEndX;
+            const by = ballPos ? ballPos.y : armEndY;
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(bx, by, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function launchVolleyball() {
+            if (state.animId) cancelAnimationFrame(state.animId);
+
+            const w = state.canvas.width;
+            const h = state.canvas.height;
+            const playerX = 60;
+            const angleRad = (state.simAngle * Math.PI) / 180;
+            const armLen = 35;
+
+            let bx = playerX + Math.cos(angleRad) * armLen;
+            let by = (h - 55) - Math.sin(angleRad) * armLen;
+
+            const speed = (state.simPower / 100) * 18;
+            let vx = Math.cos(angleRad) * speed;
+            let vy = -Math.sin(angleRad) * speed;
+            const gravity = 0.45;
+
+            function animate() {
+                bx += vx;
+                by += vy;
+                vy += gravity;
+
+                drawSimulationFrame({ x: bx, y: by });
+
+                // Check Ground Landing Collision
+                if (by >= h - 40) {
+                    const targetMin = state.currentTargetMin || (w * 0.6);
+                    const targetMax = targetMin + 60;
+
+                    const statusBadge = document.getElementById('simStatusBadge');
+
+                    if (bx >= targetMin && bx <= targetMax) {
+                        statusBadge.className = "px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40";
+                        statusBadge.innerText = "Sempurna! Tepats sasaran!";
+                        
+                        const key = `2-${state.currentDiff2 || 'mudah'}`;
+                        state.completedChallenges.add(key);
+                        updateOverallProgress();
+                    } else {
+                        statusBadge.className = "px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40";
+                        statusBadge.innerText = "Bola Melenceng! Coba atur ulang sudut.";
+                    }
+                    return;
+                }
+
+                state.animId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        function resetSimulation() {
+            if (state.animId) cancelAnimationFrame(state.animId);
+            document.getElementById('simStatusBadge').className = "px-3 py-1 rounded-full bg-amber-500/20 text-amber-300";
+            document.getElementById('simStatusBadge').innerText = "Belum Dicoba";
+            drawSimulationFrame(null);
+        }
+
+        function saveHotsAnswer() {
+            const txt = document.getElementById('hotsAnswerInput').value.trim();
+            if (txt) {
+                alert('Jawaban analisis HOTS berhasil disimpan! Tunjukkan ke Ibu Guru/Kelas untuk bahan diskusi.');
+            } else {
+                alert('Silakan ketikkan tulisan analisis jawabanmu terlebih dahulu.');
+            }
+        }
+
+        function toggleHotsKey() {
+            const keyArea = document.getElementById('hotsKeyArea');
+            keyArea.classList.toggle('hidden');
+        }
+
+        function toggleReflection(el) {
+            const check = el.querySelector('.refl-check');
+            if (check.innerHTML === '') {
+                check.innerHTML = '<i class="fa-solid fa-check"></i>';
+                el.classList.add('border-pink-500', 'bg-pink-950/20');
+            } else {
+                check.innerHTML = '';
+                el.classList.remove('border-pink-500', 'bg-pink-950/20');
+            }
+        }
+
+        function selectMood(btn, moodText) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('border-pink-500', 'bg-pink-500/20'));
+            btn.classList.add('border-pink-500', 'bg-pink-500/20');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
